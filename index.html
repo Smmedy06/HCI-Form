@@ -1,0 +1,565 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Kids Application - Registration Form</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Google Maps API - Replace YOUR_API_KEY with your actual Google Maps API key -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places" defer></script>
+</head>
+<body>
+  <main class="container mouse-disabled" id="formContainer">
+    <!-- Header with Logo -->
+    <header class="form-header">
+      <div class="logo">
+        <div class="logo-icon">KE</div>
+        <span class="logo-text">Kidedu</span>
+      </div>
+      <h1>Kids Application Registration</h1>
+      <p class="form-subtitle">Join our educational journey designed for children</p>
+    </header>
+
+    <!-- Progress Indicator -->
+    <div class="progress-container" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="5" aria-label="Form progress">
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+      <div class="progress-steps">
+        <span class="step active" data-step="1">Personal Info</span>
+        <span class="step" data-step="2">Contact Details</span>
+        <span class="step" data-step="3">Preferences</span>
+        <span class="step" data-step="4">Location</span>
+        <span class="step" data-step="5">Review</span>
+      </div>
+    </div>
+
+    <form id="regForm" novalidate>
+      <!-- Section 1: Personal Information -->
+      <section class="form-section active" id="section1" data-section="1">
+        <div class="section-header">
+          <h2>
+            <svg class="section-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+            Personal Information
+          </h2>
+          <p class="section-description">Tell us about the child</p>
+        </div>
+
+        <div class="form-fields">
+          <div class="field-group">
+            <label for="childName">
+              Child's Full Name
+              <span class="required">*</span>
+            </label>
+            <input 
+              type="text" 
+              id="childName" 
+              name="childName" 
+              placeholder="Enter child's first and last name"
+              required 
+              minlength="3" 
+              maxlength="50"
+              autocomplete="name"
+              aria-describedby="childName-error childName-hint"
+            >
+            <small class="hint" id="childName-hint">Minimum 3 characters, maximum 50 characters</small>
+            <span class="error-message" id="childName-error" role="alert"></span>
+            <button type="button" class="voice-input-btn" data-field="childName" aria-label="Voice input for child name">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                <line x1="12" y1="19" x2="12" y2="23"></line>
+                <line x1="8" y1="23" x2="16" y2="23"></line>
+              </svg>
+            </button>
+          </div>
+
+          <div class="field-group">
+            <label for="dob">
+              Date of Birth
+              <span class="required">*</span>
+            </label>
+            <div class="date-input-wrapper">
+              <input 
+                type="date" 
+                id="dob" 
+                name="dob" 
+                required
+                max=""
+                aria-describedby="dob-error dob-hint"
+              >
+              <svg class="calendar-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+            </div>
+            <small class="hint" id="dob-hint">Child must be between 3 and 18 years old</small>
+            <span class="error-message" id="dob-error" role="alert"></span>
+          </div>
+
+          <div class="field-group">
+            <label>
+              Gender
+              <span class="required">*</span>
+            </label>
+            <div class="radio-group" role="radiogroup" aria-labelledby="gender-label">
+              <label class="radio-option">
+                <input type="radio" name="gender" value="male" required>
+                <svg class="gender-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="10" cy="14" r="7"></circle>
+                  <path d="M10 7V1M10 1L7 4M10 1l3 4"></path>
+                </svg>
+                <span class="radio-label">Male</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="gender" value="female" required>
+                <svg class="gender-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="8" r="7"></circle>
+                  <path d="M12 15v6M12 15l-3 3M12 15l3 3"></path>
+                </svg>
+                <span class="radio-label">Female</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="gender" value="other" required>
+                <svg class="gender-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path>
+                </svg>
+                <span class="radio-label">Other</span>
+              </label>
+            </div>
+            <span class="error-message" id="gender-error" role="alert"></span>
+          </div>
+        </div>
+
+        <div class="section-navigation">
+          <button type="button" class="btn btn-next" disabled>Next: Contact Details <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+        </div>
+      </section>
+
+      <!-- Section 2: Contact Details -->
+      <section class="form-section" id="section2" data-section="2">
+        <div class="section-header">
+          <h2>
+            <svg class="section-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+            </svg>
+            Contact Details
+          </h2>
+          <p class="section-description">Parent/Guardian contact information</p>
+        </div>
+
+        <div class="form-fields">
+          <div class="field-group">
+            <label for="parentName">
+              Parent/Guardian Name
+              <span class="required">*</span>
+            </label>
+            <input 
+              type="text" 
+              id="parentName" 
+              name="parentName" 
+              placeholder="Enter parent or guardian's full name"
+              required 
+              minlength="3" 
+              maxlength="50"
+              autocomplete="name"
+              aria-describedby="parentName-error parentName-hint"
+            >
+            <small class="hint" id="parentName-hint">Full name of the parent or legal guardian</small>
+            <span class="error-message" id="parentName-error" role="alert"></span>
+            <button type="button" class="voice-input-btn" data-field="parentName" aria-label="Voice input for parent name">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                <line x1="12" y1="19" x2="12" y2="23"></line>
+                <line x1="8" y1="23" x2="16" y2="23"></line>
+              </svg>
+            </button>
+          </div>
+
+          <div class="field-group">
+            <label for="email">
+              Email Address
+              <span class="required">*</span>
+            </label>
+            <input 
+              type="email" 
+              id="email" 
+              name="email" 
+              placeholder="parent@example.com"
+              required
+              autocomplete="email"
+              aria-describedby="email-error email-hint"
+            >
+            <small class="hint" id="email-hint">We'll send important updates to this email</small>
+            <span class="error-message" id="email-error" role="alert"></span>
+          </div>
+
+          <div class="field-group">
+            <label for="phone">
+              Phone Number
+              <span class="required">*</span>
+            </label>
+            <input 
+              type="tel" 
+              id="phone" 
+              name="phone" 
+              placeholder="+1 (555) 123-4567"
+              required
+              pattern="[+]?[0-9\s\-\(\)]+"
+              minlength="10"
+              autocomplete="tel"
+              aria-describedby="phone-error phone-hint"
+            >
+            <small class="hint" id="phone-hint">Include country code if outside your region</small>
+            <span class="error-message" id="phone-error" role="alert"></span>
+          </div>
+
+          <div class="field-group">
+            <label for="password">
+              Create Password
+              <span class="required">*</span>
+            </label>
+            <div class="password-input-wrapper">
+              <input 
+                type="password" 
+                id="password" 
+                name="password" 
+                placeholder="At least 8 characters with numbers"
+                required 
+                minlength="8"
+                pattern="^(?=.*[A-Za-z])(?=.*\d).{8,}$"
+                autocomplete="new-password"
+                aria-describedby="password-error password-hint"
+              >
+              <button type="button" class="password-toggle-btn" id="passwordToggle" aria-label="Toggle password visibility" tabindex="0">
+                <svg class="eye-icon eye-open" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+                <svg class="eye-icon eye-closed" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none;">
+                  <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                  <line x1="1" y1="1" x2="23" y2="23"></line>
+                </svg>
+              </button>
+            </div>
+            <small class="hint" id="password-hint">Must contain at least one letter and one number</small>
+            <span class="error-message" id="password-error" role="alert"></span>
+          </div>
+        </div>
+
+        <div class="section-navigation">
+          <button type="button" class="btn btn-prev">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            Previous
+          </button>
+          <button type="button" class="btn btn-next" disabled>Next: Preferences <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+        </div>
+      </section>
+
+      <!-- Section 3: Preferences -->
+      <section class="form-section" id="section3" data-section="3">
+        <div class="section-header">
+          <h2>
+            <svg class="section-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+            </svg>
+            Learning Preferences
+          </h2>
+          <p class="section-description">Select interests and programs</p>
+        </div>
+
+        <div class="form-fields">
+          <div class="field-group">
+            <label>
+              Interests
+              <span class="required">*</span>
+            </label>
+            <div class="checkbox-group" role="group" aria-labelledby="interests-label">
+              <label class="checkbox-option">
+                <input type="checkbox" name="interests" value="mathematics" required>
+                <svg class="interest-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M3 3h18v18H3zM9 9h6M9 15h6M12 3v18"></path>
+                </svg>
+                <span class="checkbox-label">Mathematics</span>
+              </label>
+              <label class="checkbox-option">
+                <input type="checkbox" name="interests" value="english" required>
+                <svg class="interest-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                  <path d="M6 9V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v5"></path>
+                  <path d="M6 9h12"></path>
+                </svg>
+                <span class="checkbox-label">English</span>
+              </label>
+              <label class="checkbox-option">
+                <input type="checkbox" name="interests" value="science" required>
+                <svg class="interest-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path>
+                </svg>
+                <span class="checkbox-label">Science</span>
+              </label>
+              <label class="checkbox-option">
+                <input type="checkbox" name="interests" value="art" required>
+                <svg class="interest-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+                  <path d="M2 17l10 5 10-5"></path>
+                  <path d="M2 12l10 5 10-5"></path>
+                </svg>
+                <span class="checkbox-label">Art & Creativity</span>
+              </label>
+              <label class="checkbox-option">
+                <input type="checkbox" name="interests" value="coding" required>
+                <svg class="interest-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="16 18 22 12 16 6"></polyline>
+                  <polyline points="8 6 2 12 8 18"></polyline>
+                </svg>
+                <span class="checkbox-label">Coding</span>
+              </label>
+              <label class="checkbox-option">
+                <input type="checkbox" name="interests" value="reading" required>
+                <svg class="interest-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                  <path d="M6 9V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v5"></path>
+                  <path d="M6 9h12"></path>
+                </svg>
+                <span class="checkbox-label">Reading</span>
+              </label>
+            </div>
+            <small class="hint">Select at least one interest</small>
+            <span class="error-message" id="interests-error" role="alert"></span>
+          </div>
+
+          <div class="field-group">
+            <label for="country">
+              Country
+              <span class="required">*</span>
+            </label>
+            <select id="country" name="country" required aria-describedby="country-error">
+              <option value="">Choose your country...</option>
+              <option value="Pakistan">Pakistan</option>
+              <option value="United States">United States</option>
+              <option value="United Kingdom">United Kingdom</option>
+              <option value="India">India</option>
+              <option value="Canada">Canada</option>
+              <option value="Australia">Australia</option>
+              <option value="Other">Other</option>
+            </select>
+            <span class="error-message" id="country-error" role="alert"></span>
+          </div>
+
+          <div class="field-group">
+            <label for="message">
+              Additional Information
+            </label>
+            <textarea 
+              id="message" 
+              name="message" 
+              rows="4" 
+              placeholder="Tell us about any special needs, learning preferences, or questions you have..."
+              maxlength="500"
+              aria-describedby="message-hint"
+            ></textarea>
+            <small class="hint" id="message-hint"><span id="message-count">0</span>/500 characters</small>
+          </div>
+        </div>
+
+        <div class="section-navigation">
+          <button type="button" class="btn btn-prev">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            Previous
+          </button>
+          <button type="button" class="btn btn-next" disabled>Next: Location <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+        </div>
+      </section>
+
+      <!-- Section 4: Location -->
+      <section class="form-section" id="section4" data-section="4">
+        <div class="section-header">
+          <h2>
+            <svg class="section-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+            Location Information
+          </h2>
+          <p class="section-description">Your current location for personalized services</p>
+        </div>
+
+        <div class="form-fields">
+          <div class="field-group">
+            <label for="address">
+              Address
+              <span class="required">*</span>
+            </label>
+            <input 
+              type="text" 
+              id="address" 
+              name="address" 
+              placeholder="Enter your street address"
+              required
+              autocomplete="street-address"
+              aria-describedby="address-error address-hint"
+            >
+            <small class="hint" id="address-hint">We use this to find nearby learning centers</small>
+            <span class="error-message" id="address-error" role="alert"></span>
+            <button type="button" class="voice-input-btn" data-field="address" aria-label="Voice input for address">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                <line x1="12" y1="19" x2="12" y2="23"></line>
+                <line x1="8" y1="23" x2="16" y2="23"></line>
+              </svg>
+            </button>
+          </div>
+
+          <!-- Map Section -->
+          <div class="field-group map-container">
+            <label>Current Location Map</label>
+            <div id="map" class="map-display" role="img" aria-label="Map showing your current location">
+              <div class="map-placeholder">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                  <circle cx="12" cy="10" r="3"></circle>
+                </svg>
+                <p>Click "Get My Location" to see your location on the map</p>
+              </div>
+            </div>
+            <button type="button" class="btn btn-secondary" id="getLocationBtn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+              </svg>
+              Get My Location
+            </button>
+            <small class="hint">Your location helps us provide location-based learning resources</small>
+          </div>
+        </div>
+
+        <div class="section-navigation">
+          <button type="button" class="btn btn-prev">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            Previous
+          </button>
+          <button type="button" class="btn btn-next" disabled>Next: Review <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+        </div>
+      </section>
+
+      <!-- Section 5: Review & Submit -->
+      <section class="form-section" id="section5" data-section="5">
+        <div class="section-header">
+          <h2>
+            <svg class="section-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 11l3 3L22 4"></path>
+              <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+            </svg>
+            Review & Submit
+          </h2>
+          <p class="section-description">Please review your information before submitting</p>
+        </div>
+
+        <div class="review-container">
+          <div class="review-summary" id="reviewSummary">
+            <!-- Review content will be populated by JavaScript -->
+          </div>
+        </div>
+
+        <div class="section-navigation">
+          <button type="button" class="btn btn-prev">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            Previous
+          </button>
+          <button type="submit" class="btn btn-primary" id="submitBtn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 2L11 13"></path>
+              <path d="M22 2l-7 20-4-9-9-4 20-7z"></path>
+            </svg>
+            Submit Registration
+          </button>
+        </div>
+      </section>
+
+      <div id="result" class="result" aria-live="polite" role="status"></div>
+    </form>
+
+    <!-- Feedback Section -->
+    <section class="feedback-section">
+      <div class="feedback-card">
+        <h3>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+          </svg>
+          Help Us Improve
+        </h3>
+        <p>Your feedback helps us create a better experience for children and parents.</p>
+        <a href="https://forms.gle/sCx85egUHRsg6wV56" target="_blank" rel="noopener noreferrer" class="btn btn-feedback">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+            <polyline points="15 3 21 3 21 9"></polyline>
+            <line x1="10" y1="14" x2="21" y2="3"></line>
+          </svg>
+          Provide Feedback
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <!-- Voice Recognition Status -->
+  <div id="voiceStatus" class="voice-status" aria-live="polite" role="status" aria-hidden="true">
+    <div class="voice-status-content">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+        <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+        <line x1="12" y1="19" x2="12" y2="23"></line>
+        <line x1="8" y1="23" x2="16" y2="23"></line>
+      </svg>
+      <span id="voiceStatusText">Listening...</span>
+    </div>
+  </div>
+
+  <!-- Interaction Settings (bottom-right) -->
+  <div class="interaction-settings">
+    <button type="button" class="settings-toggle" id="interactionSettingsToggle" aria-controls="interactionPanel" aria-expanded="false" aria-label="Open interaction settings">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="3"></circle>
+        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 8.6 20a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H2a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 3 8.6a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 7.32 4a1.65 1.65 0 0 0 1-1.51V2a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09A1.65 1.65 0 0 0 15.4 4a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 20 8.6a1.65 1.65 0 0 0 1.51 1H22a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+      </svg>
+    </button>
+    <div class="settings-panel" id="interactionPanel" aria-hidden="true">
+      <h4>Interaction Controls</h4>
+      <div class="settings-option">
+        <div class="option-label">
+          <span>Mouse Control</span>
+          <small>Allow cursor inside form</small>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" id="mouseControlCheckbox" aria-label="Toggle mouse control">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+      <div class="settings-option">
+        <div class="option-label">
+          <span>Keyboard Control</span>
+          <small>Allow keyboard navigation</small>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" id="keyboardControlCheckbox" aria-label="Toggle keyboard control" checked>
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <div id="interactionToast" class="interaction-toast" role="status" aria-live="polite" aria-hidden="true"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
