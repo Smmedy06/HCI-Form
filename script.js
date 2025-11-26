@@ -40,6 +40,47 @@
   const focusableSelector = 'a[href], button, input, select, textarea, [tabindex]';
   let interactionToastTimeout = null;
 
+  // Get URL parameter for section
+  function getSectionFromURL() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const sectionParam = urlParams.get('section');
+    if (sectionParam) {
+      const sectionNum = parseInt(sectionParam);
+      if (sectionNum >= 1 && sectionNum <= state.totalSections) {
+        return sectionNum;
+      }
+    }
+    return 1; // Default to section 1
+  }
+
+  // Check if in preview mode (for Figma plugin)
+  function isPreviewMode() {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.has('section') || urlParams.has('preview');
+  }
+
+  // Enable all fields in a section for preview mode
+  function enableAllFieldsForPreview(sectionNum) {
+    const section = document.getElementById(`section${sectionNum}`);
+    if (!section) return;
+    
+    const fields = section.querySelectorAll('input, select, textarea, button');
+    fields.forEach(field => {
+      if (field.type !== 'submit' || sectionNum === 5) {
+        field.disabled = false;
+        // Also enable radio/checkbox options
+        if (field.type === 'radio' || field.type === 'checkbox') {
+          const option = field.closest('.radio-option, .checkbox-option');
+          if (option) {
+            option.style.opacity = '1';
+            option.style.pointerEvents = 'auto';
+            option.style.cursor = 'pointer';
+          }
+        }
+      }
+    });
+  }
+
   // Initialize
   function init() {
     setupInteractionControls();
@@ -53,19 +94,43 @@
     // Setup field dependencies FIRST to ensure proper initial state
     setupFieldDependencies();
     
+    // Get initial section from URL parameter (for Figma plugin access)
+    const initialSection = getSectionFromURL();
+    state.currentSection = initialSection;
+    
+    // If in preview mode (accessed via URL parameter), enable all fields for that section
+    if (isPreviewMode()) {
+      enableAllFieldsForPreview(initialSection);
+    }
+    
+    // Show the initial section
+    showSection(initialSection);
+    
+    // Update progress based on initial section
     updateProgress();
     
     // Clear any initial error states
     clearInitialErrors();
     
-    // Initial check - section 1 should have next button disabled
-    checkSectionValidity(1);
+    // Initial check - validate the current section
+    checkSectionValidity(initialSection);
     
-    // Show welcome notifications on page load
-    showWelcomeNotifications();
-    
-    // Focus first field on page load
-    focusFirstField();
+    // Show welcome notifications on page load (only for section 1 and not in preview mode)
+    if (initialSection === 1 && !isPreviewMode()) {
+      showWelcomeNotifications();
+      focusFirstField();
+    } else if (initialSection !== 1 || isPreviewMode()) {
+      // For other sections or preview mode, just focus the first field
+      setTimeout(() => {
+        const section = document.getElementById(`section${initialSection}`);
+        if (section) {
+          const firstInput = section.querySelector('input:not([disabled]), select:not([disabled]), textarea:not([disabled])');
+          if (firstInput && firstInput.type !== 'hidden') {
+            firstInput.focus();
+          }
+        }
+      }, 100);
+    }
     
     // Setup map after Google Maps API loads (if available)
     if (typeof google !== 'undefined' && google.maps) {
